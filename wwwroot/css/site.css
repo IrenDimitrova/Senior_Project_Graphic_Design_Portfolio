@@ -1,0 +1,71 @@
+html {
+  font-size: 14px;
+}
+
+@media (min-width: 768px) {
+  html {
+    font-size: 16px;
+  }
+}
+
+html {
+  position: relative;
+  min-height: 100%;
+}
+
+body {
+  margin-bottom: 60px;
+}
+
+.comment-card {
+    background-color: #f8f9fa;
+    transition: transform 0.2s;
+}
+
+    .comment-card:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    }
+
+.rating {
+    color: #ffd700;
+    font-size: 24px;
+    cursor: pointer;
+    user-select: none;
+}
+
+.rating-star {
+    padding: 0 2px;
+    transition: color 0.2s;
+}
+
+    .rating-star:hover,
+    .rating-star:hover ~ .rating-star {
+        color: #ffc107;
+    }
+
+.bi-star-fill {
+    color: #ffd700;
+}
+
+.bi-star {
+    color: #e4e5e9;
+}
+
+.rating-display {
+    font-size: 1.5rem;
+}
+
+.rating-info {
+    font-size: 1rem;
+}
+
+    .rating-info .bi {
+        font-size: 0.9rem;
+    }
+
+.display-4 {
+    font-size: 3rem;
+    font-weight: bold;
+    color: #4a4a4a;
+}

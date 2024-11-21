@@ -1,0 +1,164 @@
+﻿@model ProjectManagementViewModel
+
+<div class="container-fluid p-4">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h1>Manage Projects</h1>
+        <a asp-action="Create" class="btn btn-primary">
+            <i class="bi bi-plus"></i> Add New Project
+        </a>
+    </div>
+
+    <div class="row">
+        @* Print Projects *@
+        <div class="col-md-6 mb-4">
+            <div class="card">
+                <div class="card-header">
+                    <h5 class="mb-0">Print Projects</h5>
+                </div>
+                <div class="card-body">
+                    @if (!Model.PrintProjects.Any())
+                    {
+                        <p class="text-muted">No print projects yet.</p>
+                    }
+                    @foreach (var project in Model.PrintProjects)
+                    {
+                        <div class="project-item d-flex justify-content-between align-items-center mb-3">
+                            <div>
+                                <h6>@project.ProjectName</h6>
+                                <small class="text-muted">@project.CreationDate.ToShortDateString()</small>
+                            </div>
+                            <div>
+                                <a asp-action="Edit"
+                               asp-route-id="@project.ProjectID"
+                               asp-route-projectType="Print"
+                                   class="btn btn-sm btn-outline-primary me-2">Edit</a>
+                                <form asp-action="Delete" method="post" class="d-inline">
+                                    <input type="hidden" name="id" value="@project.ProjectID" />
+                                    <input type="hidden" name="projectType" value="Print" />
+                                    <button type="submit" class="btn btn-sm btn-outline-danger"
+                                            onclick="return confirm('Are you sure you want to delete this project?')">
+                                        Delete
+                                    </button>
+                                </form>
+                            </div>
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+
+        @* Digital Projects *@
+        <div class="col-md-6 mb-4">
+            <div class="card">
+                <div class="card-header">
+                    <h5 class="mb-0">Digital Design Projects</h5>
+                </div>
+                <div class="card-body">
+                    @if (!Model.DigitalProjects.Any())
+                    {
+                        <p class="text-muted">No digital design projects yet.</p>
+                    }
+                    @foreach (var project in Model.DigitalProjects)
+                    {
+                        <div class="project-item d-flex justify-content-between align-items-center mb-3">
+                            <div>
+                                <h6>@project.ProjectName</h6>
+                                <small class="text-muted">@project.CreationDate.ToShortDateString()</small>
+                            </div>
+                            <div>
+                                <a asp-action="Edit"
+                               asp-route-id="@project.ProjectID"
+                               asp-route-projectType="Digital"
+                                   class="btn btn-sm btn-outline-primary me-2">Edit</a>
+                                <form asp-action="Delete" method="post" class="d-inline">
+                                    <input type="hidden" name="id" value="@project.ProjectID" />
+                                    <input type="hidden" name="projectType" value="Digital" />
+                                    <button type="submit" class="btn btn-sm btn-outline-danger"
+                                            onclick="return confirm('Are you sure you want to delete this project?')">
+                                        Delete
+                                    </button>
+                                </form>
+                            </div>
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+
+        @* Branding Projects *@
+        <div class="col-md-6 mb-4">
+            <div class="card">
+                <div class="card-header">
+                    <h5 class="mb-0">Branding Projects</h5>
+                </div>
+                <div class="card-body">
+                    @if (!Model.BrandingProjects.Any())
+                    {
+                        <p class="text-muted">No branding projects yet.</p>
+                    }
+                    @foreach (var project in Model.BrandingProjects)
+                    {
+                        <div class="project-item d-flex justify-content-between align-items-center mb-3">
+                            <div>
+                                <h6>@project.ProjectName</h6>
+                                <small class="text-muted">@project.CreationDate.ToShortDateString()</small>
+                            </div>
+                            <div>
+                                <a asp-action="Edit"
+                               asp-route-id="@project.ProjectID"
+                               asp-route-projectType="Branding"
+                                   class="btn btn-sm btn-outline-primary me-2">Edit</a>
+                                <form asp-action="Delete" method="post" class="d-inline">
+                                    <input type="hidden" name="id" value="@project.ProjectID" />
+                                    <input type="hidden" name="projectType" value="Branding" />
+                                    <button type="submit" class="btn btn-sm btn-outline-danger"
+                                            onclick="return confirm('Are you sure you want to delete this project?')">
+                                        Delete
+                                    </button>
+                                </form>
+                            </div>
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+
+        @* 3D Projects *@
+        <div class="col-md-6 mb-4">
+            <div class="card">
+                <div class="card-header">
+                    <h5 class="mb-0">3D Design Projects</h5>
+                </div>
+                <div class="card-body">
+                    @if (!Model.ThreeDProjects.Any())
+                    {
+                        <p class="text-muted">No 3D design projects yet.</p>
+                    }
+                    @foreach (var project in Model.ThreeDProjects)
+                    {
+                        <div class="project-item d-flex justify-content-between align-items-center mb-3">
+                            <div>
+                                <h6>@project.ProjectName</h6>
+                                <small class="text-muted">@project.CreationDate.ToShortDateString()</small>
+                            </div>
+                            <div>
+                                <a asp-action="Edit"
+                               asp-route-id="@project.ProjectID"
+                               asp-route-projectType="3D"
+                                   class="btn btn-sm btn-outline-primary me-2">Edit</a>
+                                <form asp-action="Delete" method="post" class="d-inline">
+                                    <input type="hidden" name="id" value="@project.ProjectID" />
+                                    <input type="hidden" name="projectType" value="3D" />
+                                    <button type="submit" class="btn btn-sm btn-outline-danger"
+                                            onclick="return confirm('Are you sure you want to delete this project?')">
+                                        Delete
+                                    </button>
+                                </form>
+                            </div>
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

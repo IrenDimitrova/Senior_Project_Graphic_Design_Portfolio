@@ -1,0 +1,199 @@
+﻿@using Senior_Project_Graphic_Design_Portfolio.ViewModels
+@inject ApplicationDbContext context
+@model GalleryViewModel
+<div class="container-fluid p-4">
+    <div class="row mb-4">
+        <div class="col">
+            <h1 class="mb-3">Design Gallery</h1>
+
+            <div class="btn-group" role="group">
+                <a asp-action="Index" asp-route-category="all"
+                   class="btn @(Model.SelectedCategory == "all" ? "btn-primary" : "btn-outline-primary")">All</a>
+                <a asp-action="Index" asp-route-category="print"
+                   class="btn @(Model.SelectedCategory == "print" ? "btn-primary" : "btn-outline-primary")">Print</a>
+                <a asp-action="Index" asp-route-category="digital"
+                   class="btn @(Model.SelectedCategory == "digital" ? "btn-primary" : "btn-outline-primary")">Digital</a>
+                <a asp-action="Index" asp-route-category="branding"
+                   class="btn @(Model.SelectedCategory == "branding" ? "btn-primary" : "btn-outline-primary")">Branding</a>
+                <a asp-action="Index" asp-route-category="3d"
+                   class="btn @(Model.SelectedCategory == "3d" ? "btn-primary" : "btn-outline-primary")">3D</a>
+            </div>
+        </div>
+    </div>
+
+    <div class="row g-4">
+        @if (Model.SelectedCategory is "all" or "print")
+        {
+            @foreach (var project in Model.PrintProjects)
+            {
+                <div class="col-md-4">
+                    <div class="card h-100 project-card">
+                        @if (!string.IsNullOrEmpty(project.ImagePath))
+                        {
+                            <img src="~/project-images/@project.ImagePath" class="card-img-top" alt="@project.ProjectName">
+                        }
+                        <div class="card-body">
+                            <h5 class="card-title">@project.ProjectName</h5>
+                            <p class="card-text">@project.Description</p>
+                            <div class="rating-info mb-2">
+                                <div class="d-flex align-items-center">
+                                    @for (int i = 1; i <= 5; i++)
+                                    {
+                                        if (i <= Math.Round(project.AverageRating))
+                                        {
+                                            <i class="bi bi-star-fill text-warning"></i>
+                                        }
+                                        else
+                                        {
+                                            <i class="bi bi-star text-warning"></i>
+                                        }
+                                    }
+                                    <span class="ms-2 text-muted">(@project.TotalRatings)</span>
+                                </div>
+                            </div>
+                            <p class="text-muted">
+                                By @project.DesignerName
+                            </p>
+                        </div>
+                        <div class="card-footer">
+                            <a asp-action="Details"
+                               asp-route-id="@project.ProjectId"
+                               asp-route-projectType="Print"
+                               class="btn btn-primary">View Details</a>
+                        </div>
+                    </div>
+                </div>
+            }
+        }
+        @* Similar blocks for Digital, Branding, and 3D projects *@
+        @if (Model.SelectedCategory is "all" or "digital")
+        {
+            @foreach (var project in Model.DigitalProjects)
+            {
+                <div class="col-md-4">
+                    <div class="card h-100 project-card">
+                        @if (!string.IsNullOrEmpty(project.ImagePath))
+                        {
+                            <img src="~/project-images/@project.ImagePath" class="card-img-top" alt="@project.ProjectName">
+                        }
+                        <div class="card-body">
+                            <h5 class="card-title">@project.ProjectName</h5>
+                            <p class="card-text">@project.Description</p>
+                            <div class="rating-info mb-2">
+                                <div class="d-flex align-items-center">
+                                    @for (int i = 1; i <= 5; i++)
+                                    {
+                                        if (i <= Math.Round(project.AverageRating))
+                                        {
+                                            <i class="bi bi-star-fill text-warning"></i>
+                                        }
+                                        else
+                                        {
+                                            <i class="bi bi-star text-warning"></i>
+                                        }
+                                    }
+                                    <span class="ms-2 text-muted">(@project.TotalRatings)</span>
+                                </div>
+                            </div>
+                            <p class="text-muted">
+                                By @project.DesignerName
+                            </p>
+                        </div>
+                        <div class="card-footer">
+                            <a asp-action="Details"
+                               asp-route-id="@project.ProjectId"
+                               asp-route-projectType="Digital"
+                               class="btn btn-primary">View Details</a>
+                        </div>
+                    </div>
+                </div>
+            }
+        }
+        @if (Model.SelectedCategory is "all" or "branding")
+        {
+            @foreach (var project in Model.BrandingProjects)
+            {
+                <div class="col-md-4">
+                    <div class="card h-100 project-card">
+                        @if (!string.IsNullOrEmpty(project.ImagePath))
+                        {
+                            <img src="~/project-images/@project.ImagePath" class="card-img-top" alt="@project.ProjectName">
+                        }
+                        <div class="card-body">
+                            <h5 class="card-title">@project.ProjectName</h5>
+                            <p class="card-text">@project.Description</p>
+                            <div class="rating-info mb-2">
+                                <div class="d-flex align-items-center">
+                                    @for (int i = 1; i <= 5; i++)
+                                    {
+                                        if (i <= Math.Round(project.AverageRating))
+                                        {
+                                            <i class="bi bi-star-fill text-warning"></i>
+                                        }
+                                        else
+                                        {
+                                            <i class="bi bi-star text-warning"></i>
+                                        }
+                                    }
+                                    <span class="ms-2 text-muted">(@project.TotalRatings)</span>
+                                </div>
+                            </div>
+                            <p class="text-muted">
+                                By @project.DesignerName
+                            </p>
+                        </div>
+                        <div class="card-footer">
+                            <a asp-action="Details"
+                               asp-route-id="@project.ProjectId"
+                               asp-route-projectType="Branding"
+                               class="btn btn-primary">View Details</a>
+                        </div>
+                    </div>
+                </div>
+            }
+        }
+        @if (Model.SelectedCategory is "all" or "3d")
+        {
+            @foreach (var project in Model.ThreeDProjects)
+            {
+                <div class="col-md-4">
+                    <div class="card h-100 project-card">
+                        @if (!string.IsNullOrEmpty(project.ImagePath))
+                        {
+                            <img src="~/project-images/@project.ImagePath" class="card-img-top" alt="@project.ProjectName">
+                        }
+                        <div class="card-body">
+                            <h5 class="card-title">@project.ProjectName</h5>
+                            <p class="card-text">@project.Description</p>
+                            <div class="rating-info mb-2">
+                                <div class="d-flex align-items-center">
+                                    @for (int i = 1; i <= 5; i++)
+                                    {
+                                        if (i <= Math.Round(project.AverageRating))
+                                        {
+                                            <i class="bi bi-star-fill text-warning"></i>
+                                        }
+                                        else
+                                        {
+                                            <i class="bi bi-star text-warning"></i>
+                                        }
+                                    }
+                                    <span class="ms-2 text-muted">(@project.TotalRatings)</span>
+                                </div>
+                            </div>
+                            <p class="text-muted">
+                                By @project.DesignerName
+                            </p>
+                        </div>
+                        <div class="card-footer">
+                            <a asp-action="Details"
+                               asp-route-id="@project.ProjectId"
+                               asp-route-projectType="3d"
+                               class="btn btn-primary">View Details</a>
+                        </div>
+                    </div>
+                </div>
+            }
+        }
+    </div>
+</div>

@@ -1,0 +1,118 @@
+﻿@model Senior_Project_Graphic_Design_Portfolio.ViewModels.RegisterViewModel
+@{
+    ViewData["Title"] = "Register";
+}
+
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card">
+                <div class="card-header">
+                    <h2 class="text-center">Create a New Account</h2>
+                </div>
+                <div class="card-body">
+                    <form id="registerForm" asp-controller="Account" asp-action="Register" method="post">
+                        <div class="mb-4">
+                            <label class="form-label d-block">Account Type</label>
+                            <div class="btn-group w-100" role="group">
+                                <input type="radio" class="btn-check" name="AccountType" id="designerRole" value="Designer" checked>
+                                <label class="btn btn-outline-primary" for="designerRole">Designer</label>
+
+                                <input type="radio" class="btn-check" name="AccountType" id="viewerRole" value="Viewer">
+                                <label class="btn btn-outline-primary" for="viewerRole">Viewer</label>
+                            </div>
+                        </div>
+
+                        <div class="row mb-3">
+                            <div class="col-md-6">
+                                <label asp-for="FirstName" class="form-label">First Name</label>
+                                <input asp-for="FirstName" class="form-control" />
+                                <span asp-validation-for="FirstName" class="text-danger"></span>
+                            </div>
+                            <div class="col-md-6">
+                                <label asp-for="LastName" class="form-label">Last Name</label>
+                                <input asp-for="LastName" class="form-control" />
+                                <span asp-validation-for="LastName" class="text-danger"></span>
+                            </div>
+                        </div>
+
+                        <div class="mb-3">
+                            <label asp-for="Email" class="form-label">Email</label>
+                            <input asp-for="Email" class="form-control" />
+                            <span asp-validation-for="Email" class="text-danger"></span>
+                        </div>
+
+                        <div class="mb-3">
+                            <label asp-for="Password" class="form-label">Password</label>
+                            <input asp-for="Password" class="form-control" type="password" />
+                            <span asp-validation-for="Password" class="text-danger"></span>
+                        </div>
+
+                        <div class="mb-3">
+                            <label asp-for="ConfirmPassword" class="form-label">Confirm Password</label>
+                            <input asp-for="ConfirmPassword" class="form-control" type="password" />
+                            <span asp-validation-for="ConfirmPassword" class="text-danger"></span>
+                        </div>
+
+                        <div id="designerFields">
+                            <div class="mb-3">
+                                <label asp-for="Address" class="form-label">Address</label>
+                                <input asp-for="Address" class="form-control" />
+                                <span asp-validation-for="Address" class="text-danger"></span>
+                            </div>
+
+                            <div class="mb-3">
+                                <label asp-for="Website" class="form-label">Website (Optional)</label>
+                                <input asp-for="Website" class="form-control" />
+                                <span asp-validation-for="Website" class="text-danger"></span>
+                            </div>
+
+                            <div class="mb-3">
+                                <label class="form-label">Design Services</label>
+                                <div class="form-check">
+                                    <input asp-for="DoesPrintDesign" class="form-check-input" type="checkbox" />
+                                    <label asp-for="DoesPrintDesign" class="form-check-label">Print Design</label>
+                                </div>
+                                <div class="form-check">
+                                    <input asp-for="DoesBrandingDesign" class="form-check-input" type="checkbox" />
+                                    <label asp-for="DoesBrandingDesign" class="form-check-label">Branding Design</label>
+                                </div>
+                                <div class="form-check">
+                                    <input asp-for="DoesDigitalDesign" class="form-check-input" type="checkbox" />
+                                    <label asp-for="DoesDigitalDesign" class="form-check-label">Digital Design</label>
+                                </div>
+                                <div class="form-check">
+                                    <input asp-for="Does3dDesign" class="form-check-input" type="checkbox" />
+                                    <label asp-for="Does3dDesign" class="form-check-label">3D Design</label>
+                                </div>
+                            </div>
+
+                            <div class="mb-3">
+                                <label asp-for="Biography" class="form-label">Biography</label>
+                                <textarea asp-for="Biography" class="form-control" rows="4"></textarea>
+                                <span asp-validation-for="Biography" class="text-danger"></span>
+                            </div>
+                        </div>
+
+                        <button type="submit" class="btn btn-primary w-100">Register</button>
+                    </form>
+                </div>
+                <div class="card-footer text-center">
+                    <p>Already have an account? <a asp-controller="Account" asp-action="Login">Log in</a></p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        document.querySelectorAll('input[name="AccountType"]').forEach(radio => {
+            radio.addEventListener('change', function () {
+                const designerFields = document.getElementById('designerFields');
+                designerFields.style.display = this.value === 'Designer' ? 'block' : 'none';
+            });
+        });
+    </script>
+    <partial name="_ValidationScriptsPartial" />
+}

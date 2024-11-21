@@ -1,0 +1,181 @@
+﻿@using Senior_Project_Graphic_Design_Portfolio.ViewModels
+@* Views/Gallery/Details.cshtml *@
+@model ProjectDetailsViewModel
+
+<div class="container-fluid p-4">
+    <div class="row">
+        <div class="col-md-8">
+            <div class="card">
+                @if (Model.Project.GetType().GetProperty("ImagePath")?.GetValue(Model.Project) is string imagePath
+                && !string.IsNullOrEmpty(imagePath))
+                {
+                    <img src="~/project-images/@imagePath" class="card-img-top" alt="Project Image">
+                }
+                <div class="card-body">
+                    <h2 class="card-title">@Model.Project.GetType().GetProperty("ProjectName")?.GetValue(Model.Project)</h2>
+                    <p class="card-text">@Model.Project.GetType().GetProperty("Description")?.GetValue(Model.Project)</p>
+
+                    @if (Model.Project.GetType().GetProperty("ApplicationUser")?.GetValue(Model.Project) is ApplicationUser user)
+                    {
+                        <p class="text-muted">By @user.FirstName @user.LastName</p>
+                    }
+                </div>
+            </div>
+
+            <div class="card mt-4">
+                <div class="card-body">
+                    <h3>Comments</h3>
+                    @if (TempData["Error"] != null)
+                    {
+                        <div class="alert alert-danger">
+                            @TempData["Error"]
+                        </div>
+                    }
+                    @if (TempData["Success"] != null)
+                    {
+                        <div class="alert alert-success">
+                            @TempData["Success"]
+                        </div>
+                    }
+                    @if (User.Identity?.IsAuthenticated == true)
+                    {
+                        {
+                            var projectType = Context.Request.RouteValues["projectType"]?.ToString() ?? 
+                                            Context.Request.Query["projectType"].ToString();
+                        }
+                        <form asp-action="AddComment" method="post">
+                            <input type="hidden" name="projectId" 
+                                   value="@Model.Project.GetType().GetProperty("ProjectID")?.GetValue(Model.Project)" />
+                            <input type="hidden" name="projectType" value="@Model.ProjectType" />
+                            <div class="mb-3">
+                                <textarea name="comment" class="form-control" rows="3" required 
+                                          placeholder="Add your comment here..."></textarea>
+                            </div>
+                            @Html.AntiForgeryToken()
+                            <button type="submit" class="btn btn-primary">Post Comment</button>
+                        </form>
+                    }
+                    else
+                    {
+                        <p>Please <a asp-controller="Account" asp-action="Login">log in</a> to comment.</p>
+                    }
+
+
+                    <div class="mt-4">
+                        <h4>Comments (@Model.Comments.Count)</h4>
+
+                        @if (!Model.Comments.Any())
+                        {
+                            <p class="text-muted">No comments yet. Be the first to comment!</p>
+                        }
+                        else
+                        {
+                            foreach (var comment in Model.Comments.OrderByDescending(c => c.CreatedAt))
+                            {
+                                <div class="comment-card mb-3 border rounded p-3">
+                                    <div class="d-flex justify-content-between align-items-center mb-2">
+                                        <div>
+                                            <strong>@comment.User.FirstName @comment.User.LastName</strong>
+                                            @if (comment.User.UserRole == "Designer")
+                                            {
+                                                <span class="badge bg-primary ms-2">Designer</span>
+                                            }
+                                        </div>
+                                        <small class="text-muted">@comment.CreatedAt.ToString("MMM dd, yyyy HH:mm")</small>
+                                    </div>
+                                    <p class="mb-0">@comment.Comment</p>
+                                </div>
+                            }
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="card">
+                <div class="card-body">
+                    <h4>Project Rating</h4>
+                    <div class="text-center mb-3">
+                        <div class="display-4">@Model.AverageRating.ToString("F1")</div>
+                        <div class="rating-display mb-2">
+                            @for (int i = 1; i <= 5; i++)
+                            {
+                                if (i <= Math.Round(Model.AverageRating))
+                                {
+                                    <i class="bi bi-star-fill text-warning"></i>
+                                }
+                                else
+                                {
+                                    <i class="bi bi-star text-warning"></i>
+                                }
+                            }
+                        </div>
+                        <small class="text-muted">Based on @Model.TotalRatings rating@(Model.TotalRatings != 1 ? "s" : "")</small>
+                    </div>
+
+                    @if (User.Identity?.IsAuthenticated == true)
+                    {
+                        <hr />
+                        <h5>Your Rating</h5>
+                        <form asp-action="AddRating" method="post">
+                            <input type="hidden" name="projectId" value="@Model.Project.GetType().GetProperty("ProjectID")?.GetValue(Model.Project)" />
+                            <input type="hidden" name="projectType" value="@Model.ProjectType" />
+                            <div class="rating" data-current-rating="@Model.UserRating">
+                                @for (int i = 1; i <= 5; i++)
+                                {
+                                    <button type="submit" name="rating" value="@i" class="btn btn-link p-0 m-0">
+                                        <i class="bi @(i <= Model.UserRating ? "bi-star-fill" : "bi-star") rating-star"
+                                           data-rating="@i"></i>
+                                    </button>
+                                }
+                            </div>
+                            @Html.AntiForgeryToken()
+                        </form>
+                    }
+                    else
+                    {
+                        <p>Please <a asp-controller="Account" asp-action="Login">log in</a> to rate.</p>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        // Hover effect for rating stars
+        document.querySelectorAll('.rating-star').forEach((star, index) => {
+            const parentButton = star.closest('button');
+            if (parentButton) {
+                parentButton.addEventListener('mouseover', () => {
+                    const rating = parseInt(star.dataset.rating);
+                    document.querySelectorAll('.rating-star').forEach((s, i) => {
+                        if (i < rating) {
+                            s.classList.remove('bi-star');
+                            s.classList.add('bi-star-fill');
+                        } else {
+                            s.classList.remove('bi-star-fill');
+                            s.classList.add('bi-star');
+                        }
+                    });
+                });
+            }
+        });
+
+        // Reset stars on mouse out
+        document.querySelector('.rating').addEventListener('mouseout', () => {
+            const currentRating = parseInt(document.querySelector('.rating').dataset.currentRating) || 0;
+            document.querySelectorAll('.rating-star').forEach((s, i) => {
+                if (i < currentRating) {
+                    s.classList.remove('bi-star');
+                    s.classList.add('bi-star-fill');
+                } else {
+                    s.classList.remove('bi-star-fill');
+                    s.classList.add('bi-star');
+                }
+            });
+        });
+    </script>
+}

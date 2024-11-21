@@ -1,0 +1,165 @@
+﻿@model Senior_Project_Graphic_Design_Portfolio.ViewModels.DashboardViewModel
+@{
+    ViewData["Title"] = "Designer Dashboard";
+}
+
+<div class="container-fluid p-4">
+    <div class="row mb-4">
+        <div class="col-12 d-flex justify-content-between align-items-center">
+            <h1 class="h3 mb-0">Designer Dashboard</h1>
+            <select class="form-select w-auto" id="categoryFilter">
+                <option value="all">All Categories</option>
+                <option value="print">Print</option>
+                <option value="digital">Digital</option>
+                <option value="branding">Branding</option>
+                <option value="3d">3D</option>
+            </select>
+        </div>
+    </div>
+
+    @* Stats Overview *@
+    <div class="row g-4 mb-4">
+        @foreach (var stat in Model.ProjectStats)
+        {
+            <div class="col-md-6 col-lg-3">
+                <div class="card h-100">
+                    <div class="card-body">
+                        <div class="d-flex justify-content-between align-items-start mb-3">
+                            <h5 class="card-title mb-0">@stat.Category Projects</h5>
+                            @{
+                                var iconClass = stat.Category.ToLower() switch
+                                {
+                                    "print" => "bi-printer",
+                                    "digital" => "bi-display",
+                                    "branding" => "bi-briefcase",
+                                    "3d" => "bi-box",
+                                    _ => "bi-folder"
+                                };
+                            }
+                            <i class="bi @iconClass fs-4"></i>
+                        </div>
+                        <h2 class="mb-3">@stat.Count</h2>
+                        <div class="d-flex justify-content-between text-muted">
+                            <span><i class="bi bi-eye me-1"></i> @stat.Views</span>
+                            <span><i class="bi bi-star me-1"></i> @stat.Rating.ToString("F1")</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+
+    @* Charts *@
+    <div class="row g-4">
+        <div class="col-lg-6">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">Project Distribution</h5>
+                    <div class="chart-container">
+                        <canvas id="projectDistributionChart"></canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-6">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">Monthly Views</h5>
+                    <div class="chart-container">
+                        <canvas id="monthlyViewsChart"></canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    @* User Statistics *@
+    <div class="row mt-4">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">User Statistics</h5>
+                    <div class="row g-4">
+                        <div class="col-md-3">
+                            <div class="border rounded p-3 text-center">
+                                <h6>Total Users</h6>
+                                <h3>@Model.TotalUsers</h3>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="border rounded p-3 text-center">
+                                <h6>Designers</h6>
+                                <h3>@Model.TotalDesigners</h3>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="border rounded p-3 text-center">
+                                <h6>Viewers</h6>
+                                <h3>@Model.TotalViewers</h3>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            initializeCharts();
+            loadMonthlyViews();
+        });
+
+        // Initialize charts with project stats data
+        function initializeCharts() {
+            const projectStats = @Json.Serialize(Model.ProjectStats);
+
+            // Project Distribution Chart
+            new Chart(document.getElementById('projectDistributionChart'), {
+                type: 'bar',
+                data: {
+                    labels: projectStats.map(stat => stat.category),
+                    datasets: [{
+                        label: 'Number of Projects',
+                        data: projectStats.map(stat => stat.count),
+                        backgroundColor: '#4f46e5'
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false
+                }
+            });
+        }
+
+        // Load and display monthly views
+        async function loadMonthlyViews() {
+            try {
+                const response = await fetch('/Dashboard/GetMonthlyViews');
+                const monthlyData = await response.json();
+
+                new Chart(document.getElementById('monthlyViewsChart'), {
+                    type: 'line',
+                    data: {
+                        labels: monthlyData.map(item => item.month),
+                        datasets: [{
+                            label: 'Monthly Views',
+                            data: monthlyData.map(item => item.views),
+                            borderColor: '#4f46e5',
+                            tension: 0.1
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false
+                    }
+                });
+            } catch (error) {
+                console.error('Error loading monthly views:', error);
+            }
+        }
+    </script>
+}

@@ -1,0 +1,23 @@
+﻿@* Views/Account/AccessDenied.cshtml *@
+@{
+    ViewData["Title"] = "Access Denied";
+}
+
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-6 text-center">
+            <h1 class="text-danger mb-4">Access Denied</h1>
+            <div class="card">
+                <div class="card-body">
+                    <i class="bi bi-exclamation-circle text-danger" style="font-size: 3rem;"></i>
+                    <p class="lead mt-3">You do not have permission to access this resource.</p>
+                    <p>This area is restricted to designers only. Please register as a designer or contact an administrator if you believe this is a mistake.</p>
+                    <div class="mt-4">
+                        <a href="/" class="btn btn-primary me-2">Return Home</a>
+                        <a href="/Account/Register" class="btn btn-outline-primary">Register as Designer</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
