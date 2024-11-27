@@ -1,0 +1,63 @@
+﻿.features-section {
+    min-height: 100vh;
+    padding: 0 3%;
+    background-image: url('/project-images/features-background.png');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'DM Sans', sans-serif;
+}
+
+.features-content {
+    max-width: 1200px;
+    margin: 0 auto;
+    text-align: center;
+    padding: 3rem 0;
+}
+
+    .features-content h2 {
+        font-size: 60px;
+        color: var(--dark-blue);
+        margin-bottom: 3rem;
+        font-weight: 700;
+    }
+
+.features-description {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+}
+
+    .features-description p {
+        font-size: 20px;
+        line-height: 1.6;
+        color: var(--dark-blue);
+        max-width: 1000px;
+        margin: 0 auto;
+    }
+
+    .features-description .welcome {
+        font-size: 24px;
+        font-weight: 500;
+        margin-bottom: 1rem;
+    }
+
+    .features-description .platform {
+        font-size: 22px;
+    }
+
+    .features-description .target {
+        font-size: 20px;
+    }
+
+    .features-description .dive {
+        font-size: 22px;
+        font-weight: 500;
+    }
+
+    .features-description .join {
+        font-size: 22px;
+    }

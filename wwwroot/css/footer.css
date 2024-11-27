@@ -1,0 +1,91 @@
+﻿.site-footer {
+    background-color: var(--dark-blue);
+    background-image: url('/project-images/footer-background.png');
+    background-size: cover;
+    background-position: center;
+    padding: 4rem 3% 2rem;
+    color: var(--off-white);
+    font-family: 'DM Sans', sans-serif;
+}
+
+.footer-content {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 3rem;
+    margin-bottom: 3rem;
+}
+
+.footer-column h3 {
+    color: var(--yellow);
+    font-size: 24px;
+    font-weight: 700;
+    margin-bottom: 1.5rem;
+}
+
+.footer-nav {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.footer-link {
+    color: var(--off-white);
+    text-decoration: none;
+    font-size: 16px;
+    transition: color 0.3s ease;
+}
+
+    .footer-link:hover {
+        color: var(--yellow);
+    }
+
+.social-links {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.social-link {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    color: var(--off-white);
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+
+    .social-link:hover {
+        color: var(--yellow);
+    }
+
+    .social-link img {
+        width: 20px;
+        height: 20px;
+    }
+
+.footer-logo {
+    width: 500px;
+    height: auto;
+}
+
+.footer-bottom {
+    padding-top: 0.5rem; /* Increased padding */
+    margin-top: 0.5rem; /* Added margin */
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+    .footer-bottom p {
+        color: var(--yellow);
+        font-size: 20px;
+    }
+
+/* Hover effects for social media icons */
+.social-link:hover img {
+    filter: brightness(0) saturate(100%) invert(72%) sepia(38%) saturate(463%) hue-rotate(339deg) brightness(101%) contrast(92%);
+}

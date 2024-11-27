@@ -45,5 +45,9 @@ namespace Senior_Project_Graphic_Design_Portfolio.Models
         [Required]
         [StringLength(50)]
         public string UserRole { get; set; } = "Viewer";
+
+        [PersonalData]
+        [StringLength(255)]
+        public string? ProfileImagePath { get; set; }
     }
 }

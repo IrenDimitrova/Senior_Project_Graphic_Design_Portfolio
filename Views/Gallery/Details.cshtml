@@ -2,18 +2,105 @@
 @* Views/Gallery/Details.cshtml *@
 @model ProjectDetailsViewModel
 
+<style>
+    body {
+        background-image: url('/project-images/gallery-background.png');
+        background-size: cover;
+        background-position: center;
+        background-repeat: no-repeat;
+        background-attachment: fixed;
+        min-height: 100vh;
+    }
+
+    .project-details-card {
+        border: none;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        background-color: #fcfdfd;
+    }
+
+    .project-title {
+        font-family: 'Tenby Five', sans-serif;
+        color: #20364b;
+    }
+
+    .project-description {
+        font-family: 'DM Sans', sans-serif;
+        color: #20364b;
+    }
+
+    .rating-section {
+        background-color: #fcfdfd;
+        border: none;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    }
+
+        .rating-section .display-4 {
+            color: #20364b;
+            font-family: 'Tenby Five', sans-serif;
+        }
+
+    .text-warning {
+        color: #f3a849 !important;
+    }
+
+    .comment-section {
+        background-color: #fcfdfd;
+    }
+
+    .comment-card {
+        border-color: rgba(32, 54, 75, 0.1);
+        background-color: #fcfdfd;
+    }
+
+    .btn-primary {
+        background-color: #20364b;
+        border: none;
+        color: #fcfdfd;
+        transition: all 0.3s ease;
+    }
+
+        .btn-primary:hover {
+            background-color: #f3a849;
+            color: #20364b;
+        }
+
+    .badge.bg-primary {
+        background-color: #f3a849 !important;
+        color: #20364b;
+    }
+
+    .form-control:focus {
+        border-color: #f3a849;
+        box-shadow: 0 0 0 0.2rem rgba(243, 168, 73, 0.25);
+    }
+
+    .custom-link {
+        color: #20364b;
+        text-decoration: none;
+        transition: color 0.3s ease;
+    }
+
+        .custom-link:hover {
+            color: #f3a849;
+        }
+</style>
+
+
+
+
+
 <div class="container-fluid p-4">
     <div class="row">
         <div class="col-md-8">
-            <div class="card">
+            <div class="card project-details-card">
                 @if (Model.Project.GetType().GetProperty("ImagePath")?.GetValue(Model.Project) is string imagePath
                 && !string.IsNullOrEmpty(imagePath))
                 {
                     <img src="~/project-images/@imagePath" class="card-img-top" alt="Project Image">
                 }
                 <div class="card-body">
-                    <h2 class="card-title">@Model.Project.GetType().GetProperty("ProjectName")?.GetValue(Model.Project)</h2>
-                    <p class="card-text">@Model.Project.GetType().GetProperty("Description")?.GetValue(Model.Project)</p>
+                    <h2 class="project-title">@Model.Project.GetType().GetProperty("ProjectName")?.GetValue(Model.Project)</h2>
+                    <p class="project-description">@Model.Project.GetType().GetProperty("Description")?.GetValue(Model.Project)</p>
 
                     @if (Model.Project.GetType().GetProperty("ApplicationUser")?.GetValue(Model.Project) is ApplicationUser user)
                     {
@@ -22,7 +109,7 @@
                 </div>
             </div>
 
-            <div class="card mt-4">
+            <div class="card mt-4 comment-section">
                 <div class="card-body">
                     <h3>Comments</h3>
                     @if (TempData["Error"] != null)
@@ -57,7 +144,7 @@
                     }
                     else
                     {
-                        <p>Please <a asp-controller="Account" asp-action="Login">log in</a> to comment.</p>
+                        <p>Please <a asp-controller="Account" asp-action="Login" class="custom-link">log in</a> to comment.</p>
                     }
 
 
@@ -93,7 +180,7 @@
         </div>
 
         <div class="col-md-4">
-            <div class="card">
+            <div class="card rating-section">
                 <div class="card-body">
                     <h4>Project Rating</h4>
                     <div class="text-center mb-3">
@@ -135,7 +222,7 @@
                     }
                     else
                     {
-                        <p>Please <a asp-controller="Account" asp-action="Login">log in</a> to rate.</p>
+                        <p>Please <a asp-controller="Account" asp-action="Login" class="custom-link">log in</a> to rate.</p>
                     }
                 </div>
             </div>

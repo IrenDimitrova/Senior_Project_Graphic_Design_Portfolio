@@ -1,22 +1,115 @@
 ﻿@using Senior_Project_Graphic_Design_Portfolio.ViewModels
 @inject ApplicationDbContext context
 @model GalleryViewModel
+
+<style>
+    body {
+        background-image: url('/project-images/gallery-background.png');
+        background-size: cover;
+        background-position: center;
+        background-repeat: no-repeat;
+        background-attachment: fixed;
+        min-height: 100vh;
+    }
+
+    .page-title {
+        font-family: 'Tenby Five', sans-serif;
+        color: #f3a849;
+        margin-bottom: 1.5rem;
+        font-size: 2.5rem;
+    }
+
+    .category-btn-group .btn {
+        color: #f3a849;
+        border-color: #f3a849;
+        font-family: 'DM Sans', sans-serif;
+        margin-right: 0.5rem;
+        transition: all 0.3s ease;
+        background-color: transparent;
+    }
+
+        .category-btn-group .btn:hover,
+        .category-btn-group .btn.active {
+            background-color: #f3a849;
+            border-color: #f3a849;
+            color: #20364b;
+        }
+
+    .project-card {
+        border: none;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        transition: transform 0.3s ease;
+        background-color: #20364b;
+        margin-bottom: 2rem;
+    }
+
+        .project-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .project-card .card-title {
+            color: #f3a849;
+            font-family: 'Tenby Five', sans-serif;
+            font-size: 1.5rem;
+            margin-top: 1rem;
+        }
+
+        .project-card .card-text {
+            color: #fcfdfd;
+            font-family: 'DM Sans', sans-serif;
+        }
+
+        .project-card .text-muted {
+            color: #fcfdfd !important;
+            opacity: 0.8;
+        }
+
+    .btn-details {
+        background-color: #f3a849;
+        border: none;
+        color: #20364b;
+        font-family: 'DM Sans', sans-serif;
+        font-weight: 600;
+        padding: 0.5rem 1.5rem;
+        transition: all 0.3s ease;
+    }
+
+        .btn-details:hover {
+            background-color: #fcfdfd;
+            color: #20364b;
+        }
+
+    .text-warning {
+        color: #f3a849 !important;
+    }
+
+    .card-footer {
+        background-color: rgba(252, 253, 253, 0.05);
+        border-top: 1px solid rgba(252, 253, 253, 0.1);
+    }
+</style>
+
+
+
+
+
+
 <div class="container-fluid p-4">
     <div class="row mb-4">
         <div class="col">
             <h1 class="mb-3">Design Gallery</h1>
 
-            <div class="btn-group" role="group">
+            <div class="btn-group category-btn-group" role="group">
                 <a asp-action="Index" asp-route-category="all"
-                   class="btn @(Model.SelectedCategory == "all" ? "btn-primary" : "btn-outline-primary")">All</a>
+                   class="btn @(Model.SelectedCategory == "all" ? "btn-primary active" : "btn-outline-primary")">All</a>
                 <a asp-action="Index" asp-route-category="print"
-                   class="btn @(Model.SelectedCategory == "print" ? "btn-primary" : "btn-outline-primary")">Print</a>
+                   class="btn @(Model.SelectedCategory == "print" ? "btn-primary active" : "btn-outline-primary")">Print</a>
                 <a asp-action="Index" asp-route-category="digital"
-                   class="btn @(Model.SelectedCategory == "digital" ? "btn-primary" : "btn-outline-primary")">Digital</a>
+                   class="btn @(Model.SelectedCategory == "digital" ? "btn-primary active" : "btn-outline-primary")">Digital</a>
                 <a asp-action="Index" asp-route-category="branding"
-                   class="btn @(Model.SelectedCategory == "branding" ? "btn-primary" : "btn-outline-primary")">Branding</a>
+                   class="btn @(Model.SelectedCategory == "branding" ? "btn-primary active" : "btn-outline-primary")">Branding</a>
                 <a asp-action="Index" asp-route-category="3d"
-                   class="btn @(Model.SelectedCategory == "3d" ? "btn-primary" : "btn-outline-primary")">3D</a>
+                   class="btn @(Model.SelectedCategory == "3d" ? "btn-primary active" : "btn-outline-primary")">3D</a>
             </div>
         </div>
     </div>
@@ -59,7 +152,7 @@
                             <a asp-action="Details"
                                asp-route-id="@project.ProjectId"
                                asp-route-projectType="Print"
-                               class="btn btn-primary">View Details</a>
+                               class="btn btn-details">View Details</a>
                         </div>
                     </div>
                 </div>
@@ -103,7 +196,7 @@
                             <a asp-action="Details"
                                asp-route-id="@project.ProjectId"
                                asp-route-projectType="Digital"
-                               class="btn btn-primary">View Details</a>
+                               class="btn btn-details">View Details</a>
                         </div>
                     </div>
                 </div>
@@ -146,7 +239,7 @@
                             <a asp-action="Details"
                                asp-route-id="@project.ProjectId"
                                asp-route-projectType="Branding"
-                               class="btn btn-primary">View Details</a>
+                               class="btn btn-details">View Details</a>
                         </div>
                     </div>
                 </div>
@@ -189,7 +282,7 @@
                             <a asp-action="Details"
                                asp-route-id="@project.ProjectId"
                                asp-route-projectType="3d"
-                               class="btn btn-primary">View Details</a>
+                               class="btn btn-details">View Details</a>
                         </div>
                     </div>
                 </div>

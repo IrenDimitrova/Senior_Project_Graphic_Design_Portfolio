@@ -1,24 +1,29 @@
+/* Base Styles */
 html {
-  font-size: 14px;
-}
-
-@media (min-width: 768px) {
-  html {
-    font-size: 16px;
-  }
-}
-
-html {
-  position: relative;
-  min-height: 100%;
+    font-size: 14px;
+    margin: 0;
+    padding: 0;
 }
 
 body {
-  margin-bottom: 60px;
+    margin: 0;
+    padding: 0;
+    overflow-x: hidden;
+    font-family: 'DM Sans', sans-serif;
+    color: #20364b;
 }
 
+.container {
+    width: 100%;
+    padding: 0;
+    margin: 0;
+    max-width: none;
+}
+
+/* Comments */
 .comment-card {
-    background-color: #f8f9fa;
+    background-color: #fcfdfd;
+    border: 1px solid rgba(32, 54, 75, 0.1);
     transition: transform 0.2s;
 }
 
@@ -27,8 +32,9 @@ body {
         box-shadow: 0 2px 4px rgba(0,0,0,0.1);
     }
 
+/* Ratings */
 .rating {
-    color: #ffd700;
+    color: #f3a849;
     font-size: 24px;
     cursor: pointer;
     user-select: none;
@@ -41,19 +47,20 @@ body {
 
     .rating-star:hover,
     .rating-star:hover ~ .rating-star {
-        color: #ffc107;
+        color: #f3a849;
     }
 
 .bi-star-fill {
-    color: #ffd700;
+    color: #f3a849;
 }
 
 .bi-star {
-    color: #e4e5e9;
+    color: rgba(243, 168, 73, 0.3);
 }
 
 .rating-display {
     font-size: 1.5rem;
+    font-family: 'Tenby Five', sans-serif;
 }
 
 .rating-info {
@@ -67,5 +74,55 @@ body {
 .display-4 {
     font-size: 3rem;
     font-weight: bold;
-    color: #4a4a4a;
+    color: #20364b;
+    font-family: 'Tenby Five', sans-serif;
+}
+
+/* User Dropdown */
+.user-dropdown-btn {
+    background: none;
+    border: none;
+    padding: 0;
+    cursor: pointer;
+    transition: transform 0.2s ease;
+}
+
+.user-icon {
+    width: 50px;
+    height: 50px;
+    filter: brightness(0) saturate(100%) invert(71%) sepia(43%) saturate(636%) hue-rotate(334deg) brightness(101%) contrast(92%);
+}
+
+.user-dropdown-btn {
+    background: transparent;
+    border: none;
+    padding: 4px;
+    cursor: pointer;
+    transition: transform 0.2s ease;
+}
+
+.dropdown-menu {
+    background-color: #fcfdfd;
+    border: 1px solid rgba(32, 54, 75, 0.1);
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    min-width: 200px;
+    border-radius: 8px;
+    margin-top: 0.5rem;
+}
+
+.dropdown-item {
+    color: #20364b;
+    font-family: 'DM Sans', sans-serif;
+    padding: 0.75rem 1.5rem;
+    transition: all 0.3s ease;
+}
+
+    .dropdown-item:hover {
+        background-color: #f3a849;
+        color: #20364b;
+    }
+
+.dropdown-divider {
+    border-top: 1px solid rgba(32, 54, 75, 0.1);
+    margin: 0.5rem 0;
 }

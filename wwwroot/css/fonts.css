@@ -1,0 +1,11 @@
+﻿/* Google Fonts import for DM Sans */
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;700&display=swap');
+
+/* Custom font face for Tenby Five */
+@font-face {
+    font-family: 'Tenby Five';
+    src: url('/fonts/tenby-five.otf') format('opentype');
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+}

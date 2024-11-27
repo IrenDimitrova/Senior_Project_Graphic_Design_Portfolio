@@ -2,10 +2,79 @@
 @{
     ViewData["Title"] = "Login";
 }
-<div class="container mt-5">
+
+<style>
+    body {
+        background-image: url('/project-images/hero-background.png');
+        background-size: cover;
+        background-position: center;
+        background-repeat: no-repeat;
+        min-height: 100vh;
+    }
+
+    h2 {
+        font-family: 'Tenby Five', sans-serif;
+        color: #f3a849;
+        font-size: 45px;
+    }
+
+    .custom-card {
+        background-color: rgba(252, 253, 253, 0.95);
+        border-radius: 8px;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        font-family: 'DM Sans', sans-serif;
+        margin-top: 4rem;
+        margin-bottom: 6rem;
+    }
+
+    .custom-card .card-header {
+        background-color: transparent;
+        border-bottom: 1px solid rgba(32, 54, 75, 0.1);
+        padding: 1.5rem 1rem;
+        }
+
+    .form-label {
+        color: #20364b;
+        font-family: 'DM Sans', sans-serif;
+        font-weight: bold;
+    }
+
+
+    .custom-btn-login {
+        background-color: #20364b;
+        border: none;
+        color: #fcfdfd;
+        padding: 10px 20px;
+        transition: all 0.3s ease;
+    }
+
+        .custom-btn-login:hover {
+        background-color: #f3a849;
+        color: #20364b;
+        }
+
+    .custom-link {
+        color: #20364b;
+        text-decoration: none;
+        transition: color 0.3s ease;
+    }
+
+        .custom-link:hover {
+            color: #f3a849;
+        }
+
+    .form-control:focus {
+        border-color: #f3a849;
+        box-shadow: 0 0 0 0.2rem rgba(243, 168, 73, 0.25);
+    }
+</style>
+
+
+
+<div class="container">
     <div class="row justify-content-center">
-        <div class="col-md-6">
-            <div class="card">
+        <div class="col-md-5">
+            <div class="card custom-card">
                 <div class="card-header">
                     <h2 class="text-center">Log in</h2>
                 </div>
@@ -29,11 +98,11 @@
                                 </label>
                             </div>
                         </div>
-                        <button type="submit" class="btn btn-primary w-100">Log in</button>
+                        <button type="submit" class="btn custom-btn-login w-100">Log in</button>
                     </form>
                 </div>
                 <div class="card-footer text-center">
-                    <p>Don't have an account? <a asp-controller="Account" asp-action="Register">Register here</a></p>
+                    <p>Don't have an account? <a asp-controller="Account" asp-action="Register" class="custom-link">Register here</a></p>
                 </div>
             </div>
         </div>

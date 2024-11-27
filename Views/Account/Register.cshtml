@@ -3,10 +3,98 @@
     ViewData["Title"] = "Register";
 }
 
-<div class="container mt-5">
+<style>
+    body {
+        background-image: url('/project-images/about-numbers-background.png');
+        background-size: cover;
+        background-position: center;
+        background-repeat: no-repeat;
+        min-height: 100vh;
+    }
+
+    h2 {
+        font-family: 'Tenby Five', sans-serif;
+        color: #f3a849;
+        font-size: 45px;
+        
+    }
+
+    .custom-card {
+        background-color: rgba(252, 253, 253, 0.95);
+        border-radius: 8px;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        font-family: 'DM Sans', sans-serif;
+        margin-top: 4rem;
+        margin-bottom: 4rem;
+    }
+
+        .custom-card .card-header {
+            background-color: transparent;
+            border-bottom: 1px solid rgba(32, 54, 75, 0.1);
+            padding: 1.5rem 1rem;
+        }
+
+    .form-label {
+        color: #20364b;
+        font-family: 'DM Sans', sans-serif;
+        font-weight: bold;
+    }
+
+    .custom-btn-register {
+        background-color: #f3a849;
+        border: none;
+        color: #fcfdfd;
+        padding: 10px 20px;
+        transition: all 0.3s ease;
+    }
+
+        .custom-btn-register:hover {
+            background-color: #20364b;
+            color: #f3a849;
+        }
+
+    .custom-link {
+        color: #20364b;
+        text-decoration: none;
+        transition: color 0.3s ease;
+    }
+
+        .custom-link:hover {
+            color: #f3a849;
+        }
+
+    .form-control:focus {
+        border-color: #f3a849;
+        box-shadow: 0 0 0 0.2rem rgba(243, 168, 73, 0.25);
+    }
+
+    .btn-check:checked + .btn-outline-primary {
+        background-color: #20364b;
+        border-color: #20364b;
+        color: #fcfdfd;
+    }
+
+    .btn-outline-primary {
+        color: #20364b;
+        border-color: #20364b;
+    }
+
+        .btn-outline-primary:hover {
+            background-color: #f3a849;
+            border-color: #f3a849;
+            color: #20364b;
+        }
+
+    .form-check-input:checked {
+        background-color: #f3a849;
+        border-color: #f3a849;
+    }
+</style>
+
+<div class="container">
     <div class="row justify-content-center">
-        <div class="col-md-8">
-            <div class="card">
+        <div class="col-md-6">
+            <div class="card custom-card">
                 <div class="card-header">
                     <h2 class="text-center">Create a New Account</h2>
                 </div>
@@ -94,11 +182,11 @@
                             </div>
                         </div>
 
-                        <button type="submit" class="btn btn-primary w-100">Register</button>
+                        <button type="submit" class="btn custom-btn-register w-100">Register</button>
                     </form>
                 </div>
                 <div class="card-footer text-center">
-                    <p>Already have an account? <a asp-controller="Account" asp-action="Login">Log in</a></p>
+                    <p class="mb-0">Already have an account? <a asp-controller="Account" asp-action="Login" class="custom-link">Log in</a></p>
                 </div>
             </div>
         </div>
