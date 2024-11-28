@@ -1,0 +1,75 @@
+﻿@model Senior_Project_Graphic_Design_Portfolio.Areas.Admin.ViewModels.EditUserViewModel
+
+<div class="container mt-4">
+    <h2>Edit User</h2>
+    <form asp-action="EditUser" method="post">
+        <input type="hidden" asp-for="Id" />
+
+        <div class="form-group mb-3">
+            <label asp-for="FirstName">First Name</label>
+            <input asp-for="FirstName" class="form-control" />
+            <span asp-validation-for="FirstName" class="text-danger"></span>
+        </div>
+
+        <div class="form-group mb-3">
+            <label asp-for="LastName">Last Name</label>
+            <input asp-for="LastName" class="form-control" />
+            <span asp-validation-for="LastName" class="text-danger"></span>
+        </div>
+
+        <div class="form-group mb-3">
+            <label asp-for="Email">Email</label>
+            <input asp-for="Email" class="form-control" />
+            <span asp-validation-for="Email" class="text-danger"></span>
+        </div>
+
+        <div class="form-group mb-3">
+            <label asp-for="Role">Role</label>
+            <select asp-for="Role" class="form-control">
+                <option value="Designer">Designer</option>
+                <option value="Viewer">Viewer</option>
+            </select>
+        </div>
+
+        <div id="designerServices" class="mb-3">
+            <h4>Design Services</h4>
+            <div class="form-check">
+                <input asp-for="DoesPrintDesign" class="form-check-input" type="checkbox" />
+                <label asp-for="DoesPrintDesign" class="form-check-label">Print Design</label>
+            </div>
+            <div class="form-check">
+                <input asp-for="DoesBrandingDesign" class="form-check-input" type="checkbox" />
+                <label asp-for="DoesBrandingDesign" class="form-check-label">Branding Design</label>
+            </div>
+            <div class="form-check">
+                <input asp-for="DoesDigitalDesign" class="form-check-input" type="checkbox" />
+                <label asp-for="DoesDigitalDesign" class="form-check-label">Digital Design</label>
+            </div>
+            <div class="form-check">
+                <input asp-for="Does3dDesign" class="form-check-input" type="checkbox" />
+                <label asp-for="Does3dDesign" class="form-check-label">3D Design</label>
+            </div>
+        </div>
+
+        <button type="submit" class="btn btn-primary">Save Changes</button>
+        <a asp-action="Index" class="btn btn-secondary">Cancel</a>
+    </form>
+</div>
+
+@section Scripts {
+    <script>
+        $(document).ready(function () {
+            function toggleDesignerServices() {
+                var role = $('#Role').val();
+                if (role === 'Designer') {
+                    $('#designerServices').show();
+                } else {
+                    $('#designerServices').hide();
+                }
+            }
+
+            $('#Role').change(toggleDesignerServices);
+            toggleDesignerServices();
+        });
+    </script>
+}

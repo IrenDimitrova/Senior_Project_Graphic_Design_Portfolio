@@ -6,6 +6,7 @@ namespace Senior_Project_Graphic_Design_Portfolio.Controllers
     {
         public IActionResult Index()
         {
+            ViewData["CurrentPage"] = "Home";
             return View();
         }
 

@@ -1,5 +1,127 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
-@{
+﻿@model Senior_Project_Graphic_Design_Portfolio.ViewModels.ProfileUpdateViewModel
+
+<style>
+    .profile-edit-container {
+        background-color: #fcfdfd;
+        border-radius: 8px;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        margin: 4rem auto;
+        max-width: 800px;
+        padding: 2rem;
+    }
+
+    .section-title {
+        color: #f3a849;
+        font-family: 'Tenby Five', sans-serif;
+        margin-bottom: 1.5rem;
+    }
+
+    .form-label {
+        color: #20364b;
+        font-family: 'DM Sans', sans-serif;
+        font-weight: bold;
+    }
+
+    .form-control:focus {
+        border-color: #f3a849;
+        box-shadow: 0 0 0 0.2rem rgba(243, 168, 73, 0.25);
+    }
+
+    .service-options {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        gap: 1rem;
+    }
+
+    .btn-save {
+        background-color: #20364b;
+        color: #fcfdfd;
+        transition: all 0.3s ease;
+    }
+
+        .btn-save:hover {
+            background-color: #f3a849;
+            color: #20364b;
+        }
+</style>
+
+<div class="profile-edit-container">
+    <h2 class="section-title">Edit Profile</h2>
+
+    <form method="post" enctype="multipart/form-data">
+        @* Enables ASP.NET Core's built-in anti-forgery protection *@
+        @Html.AntiForgeryToken()
+
+        @* Display any validation errors at the top of the form *@
+        <div asp-validation-summary="ModelOnly" class="text-danger mb-4"></div>
+
+        <div class="row mb-4">
+            <div class="col-md-6">
+                <label asp-for="FirstName" class="form-label"></label>
+                <input asp-for="FirstName" class="form-control" />
+                <span asp-validation-for="FirstName" class="text-danger"></span>
+            </div>
+            <div class="col-md-6">
+                <label asp-for="LastName" class="form-label"></label>
+                <input asp-for="LastName" class="form-control" />
+                <span asp-validation-for="LastName" class="text-danger"></span>
+            </div>
+        </div>
+
+        <div class="mb-4">
+            <label asp-for="Biography" class="form-label"></label>
+            <textarea asp-for="Biography" class="form-control" rows="4"
+                      placeholder="Tell others about yourself and your design experience..."></textarea>
+            <span asp-validation-for="Biography" class="text-danger"></span>
+        </div>
+
+        <div class="mb-4">
+            <label asp-for="Website" class="form-label"></label>
+            <input asp-for="Website" class="form-control" placeholder="https://..." />
+            <span asp-validation-for="Website" class="text-danger"></span>
+        </div>
+
+        <div class="mb-4">
+            <label asp-for="ProfileImage" class="form-label">Profile Picture</label>
+            <input asp-for="ProfileImage" type="file" class="form-control" accept=".jpg,.jpeg,.png" />
+            <span asp-validation-for="ProfileImage" class="text-danger"></span>
+            <small class="text-muted d-block mt-1">
+                Maximum file size: 5MB. Allowed formats: JPG, JPEG, PNG
+            </small>
+        </div>
+
+        @if (User.IsInRole("Designer"))
+        {
+            <div class="mb-4">
+                <label class="form-label d-block mb-3">Design Services</label>
+                <div class="service-options">
+                    <div class="form-check">
+                        <input asp-for="DoesPrintDesign" class="form-check-input" />
+                        <label asp-for="DoesPrintDesign" class="form-check-label">Print Design</label>
+                    </div>
+                    <div class="form-check">
+                        <input asp-for="DoesDigitalDesign" class="form-check-input" />
+                        <label asp-for="DoesDigitalDesign" class="form-check-label">Digital Design</label>
+                    </div>
+                    <div class="form-check">
+                        <input asp-for="DoesBrandingDesign" class="form-check-input" />
+                        <label asp-for="DoesBrandingDesign" class="form-check-label">Branding Design</label>
+                    </div>
+                    <div class="form-check">
+                        <input asp-for="Does3dDesign" class="form-check-input" />
+                        <label asp-for="Does3dDesign" class="form-check-label">3D Design</label>
+                    </div>
+                </div>
+            </div>
+        }
+
+        <div class="text-center mt-5">
+            <button type="submit" class="btn btn-save px-5 py-2">Save Changes</button>
+            <a asp-action="Index" class="btn btn-light ms-3">Cancel</a>
+        </div>
+    </form>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
 }

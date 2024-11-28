@@ -37,8 +37,8 @@
     transition: color 0.3s ease;
 }
 
-    .footer-link:hover {
-        color: var(--yellow);
+.footer-link:hover {
+    color: var(--yellow);
     }
 
 .social-links {
@@ -56,13 +56,13 @@
     transition: color 0.3s ease;
 }
 
-    .social-link:hover {
-        color: var(--yellow);
+.social-link:hover {
+    color: var(--yellow);
     }
 
-    .social-link img {
-        width: 20px;
-        height: 20px;
+.social-link img {
+    width: 20px;
+    height: 20px;
     }
 
 .footer-logo {
@@ -71,8 +71,8 @@
 }
 
 .footer-bottom {
-    padding-top: 0.5rem; /* Increased padding */
-    margin-top: 0.5rem; /* Added margin */
+    padding-top: 0.5rem;
+    margin-top: 0.5rem;
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -80,9 +80,9 @@
     margin: 0 auto;
 }
 
-    .footer-bottom p {
-        color: var(--yellow);
-        font-size: 20px;
+.footer-bottom p {
+    color: var(--yellow);
+    font-size: 20px;
     }
 
 /* Hover effects for social media icons */

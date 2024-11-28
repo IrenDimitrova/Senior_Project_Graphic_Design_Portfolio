@@ -11,6 +11,7 @@ namespace Senior_Project_Graphic_Design_Portfolio.Data
         {
         }
 
+        public DbSet<Inquiry> Inquiries { get; set; } = null!;
         public DbSet<PrintProject> PrintProjects { get; set; } = null!;
         public DbSet<DigitalDesignProject> DigitalDesignProjects { get; set; } = null!;
         public DbSet<BrandingProject> BrandingProjects { get; set; } = null!;
@@ -18,6 +19,7 @@ namespace Senior_Project_Graphic_Design_Portfolio.Data
         public DbSet<ProjectView> ProjectViews { get; set; } = null!;
         public DbSet<ProjectComment> ProjectComments { get; set; } = null!;
         public DbSet<ProjectRating> ProjectRatings { get; set; } = null!;
+        public DbSet<Contact> Contacts { get; set; } = null!;
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
@@ -38,6 +40,19 @@ namespace Senior_Project_Graphic_Design_Portfolio.Data
             builder.Entity<ProjectRating>()
                 .Property(p => p.ProjectType)
                 .IsRequired();
+
+            builder.Entity<Inquiry>(entity =>
+            {
+            entity.HasOne(i => i.Receiver)
+            .WithMany()
+            .HasForeignKey(i => i.ReceiverId)
+            .OnDelete(DeleteBehavior.Restrict);
+
+            entity.HasOne(i => i.Sender)
+            .WithMany()
+            .HasForeignKey(i => i.SenderId)
+            .OnDelete(DeleteBehavior.SetNull);
+            });
         }
     }
 

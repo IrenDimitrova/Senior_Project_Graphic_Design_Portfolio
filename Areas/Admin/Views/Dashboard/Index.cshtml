@@ -111,10 +111,8 @@
                                     <span class="badge bg-success">@user.Status</span>
                                 </td>
                                 <td>
-                                    <button class="btn btn-sm btn-danger"
-                                            onclick="deleteUser('@user.Id')">
-                                        Delete
-                                    </button>
+                                    <a asp-action="EditUser" asp-route-id="@user.Id" class="btn btn-sm btn-warning">Edit</a>
+                                    <button class="btn btn-sm btn-danger" onclick="deleteUser('@user.Id')">Delete</button>
                                 </td>
                             </tr>
                         }
@@ -146,4 +144,5 @@
             }
         }
     </script>
+
 }

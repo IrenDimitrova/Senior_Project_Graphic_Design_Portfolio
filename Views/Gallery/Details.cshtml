@@ -104,7 +104,7 @@
 
                     @if (Model.Project.GetType().GetProperty("ApplicationUser")?.GetValue(Model.Project) is ApplicationUser user)
                     {
-                        <p class="text-muted">By @user.FirstName @user.LastName</p>
+                        <p class="text-muted"> <a asp-controller="Profile" asp-action="PublicProfile" asp-route-userId="@user.Id">By @user.FirstName @user.LastName</a></p>
                     }
                 </div>
             </div>

@@ -67,6 +67,72 @@ namespace Senior_Project_Graphic_Design_Portfolio.Areas.Admin.Controllers
             return View(viewModel);
         }
 
+        [HttpGet]
+        public async Task<IActionResult> EditUser(string id)
+        {
+            var user = await _userManager.FindByIdAsync(id);
+            if (user == null)
+            {
+                return NotFound();
+            }
+
+            var viewModel = new EditUserViewModel
+            {
+                Id = user.Id,
+                FirstName = user.FirstName,
+                LastName = user.LastName,
+                Email = user.Email,
+                Role = user.UserRole,
+                DoesPrintDesign = user.DoesPrintDesign,
+                DoesBrandingDesign = user.DoesBrandingDesign,
+                DoesDigitalDesign = user.DoesDigitalDesign,
+                Does3dDesign = user.Does3dDesign
+            };
+
+            return View(viewModel);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> EditUser(EditUserViewModel model)
+        {
+            if (!ModelState.IsValid)
+            {
+                return View(model);
+            }
+
+            var user = await _userManager.FindByIdAsync(model.Id);
+            if (user == null)
+            {
+                return NotFound();
+            }
+
+            // Update user properties
+            user.FirstName = model.FirstName;
+            user.LastName = model.LastName;
+            user.Email = model.Email;
+            user.UserRole = model.Role;
+            user.DoesPrintDesign = model.DoesPrintDesign;
+            user.DoesBrandingDesign = model.DoesBrandingDesign;
+            user.DoesDigitalDesign = model.DoesDigitalDesign;
+            user.Does3dDesign = model.Does3dDesign;
+
+            var result = await _userManager.UpdateAsync(user);
+            if (result.Succeeded)
+            {
+                TempData["Success"] = "User updated successfully!";
+                return RedirectToAction(nameof(Index));
+            }
+
+            foreach (var error in result.Errors)
+            {
+                ModelState.AddModelError("", error.Description);
+            }
+
+            return View(model);
+        }
+
+
         [HttpPost]
         public async Task<IActionResult> DeleteUser(string id)
         {

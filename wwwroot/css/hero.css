@@ -42,12 +42,14 @@
     font-weight: 400;
     transition: color 0.3s;
     font-family: 'DM Sans', sans-serif;
-    }
+    padding-bottom: 5px;
+    border-bottom: 2px solid transparent;
+}
 
-    .nav-links a.active {
-        border-bottom: 2px solid var(--yellow);
-        }
-
+.nav-links a.active {
+    border-bottom: 2px solid var(--yellow);
+}
+   
 .nav-search input {
     padding: 0.75rem 1.5rem;
     border-radius: 15px;
@@ -77,11 +79,17 @@
     font-family: 'DM Sans', sans-serif;
 }
 
-    .btn-login:hover {
-        background-color: var(--yellow);
-        color: var(--off-white);
+.btn-login:hover {
+    background-color: var(--yellow);
+    color: var(--off-white);
+    text-decoration: none;
     }
 
+.nav-links a:hover {
+    color: var(--off-white);
+    border-bottom: 2px solid var(--yellow);
+}
+ 
 .btn-register {
     color: var(--off-white);
     text-decoration: none;
@@ -139,7 +147,7 @@
     font-family: 'DM Sans', sans-serif;
     transition: all 0.3s;
 }
-s
+
     .btn-join:hover {
         background-color: var(--dark-blue);
         color: var(--yellow);

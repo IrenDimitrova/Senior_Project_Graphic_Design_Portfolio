@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using NuGet.Packaging;
 using Senior_Project_Graphic_Design_Portfolio.Data;
 using Senior_Project_Graphic_Design_Portfolio.Models;
 using Senior_Project_Graphic_Design_Portfolio.ViewModels;
@@ -14,7 +15,6 @@ namespace Senior_Project_Graphic_Design_Portfolio.Controllers
         private readonly ApplicationDbContext _context;
         private readonly IWebHostEnvironment _webHostEnvironment;
 
-        // Constructor using dependency injection to get our required services
         public ProfileController(
             UserManager<ApplicationUser> userManager,
             ApplicationDbContext context,
@@ -25,35 +25,99 @@ namespace Senior_Project_Graphic_Design_Portfolio.Controllers
             _webHostEnvironment = webHostEnvironment;
         }
 
-        // Action to display the user's own profile
         [Authorize]
         public async Task<IActionResult> Index()
         {
-            // Get the currently logged-in user
             var user = await _userManager.GetUserAsync(User);
             if (user == null)
             {
                 return NotFound();
             }
 
-            // Get all projects for this user
-            var printProjects = await _context.PrintProjects
+            // Fetch projects with tracking disabled for better performance
+            var projects = await _context.ProjectRatings
+                .AsNoTracking()
                 .Where(p => p.UserId == user.Id)
                 .ToListAsync();
 
-            var digitalProjects = await _context.DigitalProjects
-                .Where(p => p.UserId == user.Id)
+            var printProjects = await _context.PrintProjects
+                .AsNoTracking()
+                .Where(p => p.ApplicationUserId == user.Id)
                 .ToListAsync();
+
+            foreach (var item in printProjects)
+            {
+                var pr = projects.FirstOrDefault(q => q.ProjectId == item.ProjectID && q.ProjectType == "Print");
+                if(pr != null)
+                item.Rating = pr.Rating;
+                else item.Rating = 0;
+            }
+
+            var digitalProjects = await _context.DigitalDesignProjects
+                .AsNoTracking()
+                .Where(p => p.ApplicationUserId == user.Id)
+                .ToListAsync();
+
+            foreach (var item1 in digitalProjects)
+            {
+                var pr = projects.FirstOrDefault(q => q.ProjectId == item1.ProjectID && q.ProjectType == "Digital");
+                if (pr != null)
+                    item1.Rating = pr.Rating;
+                else item1.Rating = 0;
+            }
 
             var brandingProjects = await _context.BrandingProjects
-                .Where(p => p.UserId == user.Id)
+                .AsNoTracking()
+                .Where(p => p.ApplicationUserId == user.Id)
                 .ToListAsync();
+
+            foreach (var item2 in brandingProjects)
+            {
+                var pr = projects.FirstOrDefault(q => q.ProjectId == item2.ProjectID && q.ProjectType == "Branding");
+                if (pr != null)
+                    item2.Rating = pr.Rating;
+                else item2.Rating = 0;
+            }
 
             var threeDProjects = await _context.ThreeDProjects
-                .Where(p => p.UserId == user.Id)
+                .AsNoTracking()
+                .Where(p => p.ApplicationUserId == user.Id)
                 .ToListAsync();
 
-            // Create the view model
+            foreach (var item3 in threeDProjects)
+            {
+                var pr = projects.FirstOrDefault(q => q.ProjectId == item3.ProjectID && q.ProjectType == "3d");
+                if (pr != null)
+                    item3.Rating = pr.Rating;
+                else item3.Rating = 0;
+            }
+
+            // Calculate statistics
+            var totalProjects = printProjects.Count() +
+                    digitalProjects.Count() +
+                    brandingProjects.Count() +
+                    threeDProjects.Count();
+
+            var averageRating = 0.0;
+            var totalViews = 0;
+
+            if (totalProjects > 0)
+            {
+                // Calculate total ratings, handling null cases
+                var ratings = new List<int>();
+
+                ratings.AddRange((IEnumerable<int>)projects.Select(p => p.Rating));
+
+                averageRating = (double)(ratings!.Any() ? Math.Round(ratings!.Average(), 2)!  : 0);
+
+                // Calculate total views
+                totalViews =
+                    printProjects.Sum(p => p.Views) +
+                    digitalProjects.Sum(p => p.Views) +
+                    brandingProjects.Sum(p => p.Views) +
+                    threeDProjects.Sum(p => p.Views);
+            }
+
             var viewModel = new ProfileViewModel
             {
                 UserId = user.Id,
@@ -71,14 +135,138 @@ namespace Senior_Project_Graphic_Design_Portfolio.Controllers
                 DigitalProjects = digitalProjects,
                 BrandingProjects = brandingProjects,
                 ThreeDProjects = threeDProjects,
-                TotalProjects = printProjects.Count + digitalProjects.Count +
-                               brandingProjects.Count + threeDProjects.Count
+                TotalProjects = totalProjects,
+                AverageRating = averageRating,
+                TotalViews = totalViews
             };
 
             return View(viewModel);
         }
 
-        // Action to handle profile editing
+        public async Task<IActionResult> PublicProfile(string userId)
+        {
+            var user = await _context.Users.FirstOrDefaultAsync(x => x.Id == userId);
+
+            if (user == null)
+            {
+                return NotFound();
+            }
+            
+            if(user.Id == _userManager.GetUserId(User))
+            {
+                return RedirectToAction("Index");
+            }
+            
+
+            // Fetch projects with tracking disabled for better performance
+            var projects = await _context.ProjectRatings
+                .AsNoTracking()
+                .Where(p => p.UserId == user.Id)
+                .ToListAsync();
+
+            var printProjects = await _context.PrintProjects
+                .AsNoTracking()
+                .Where(p => p.ApplicationUserId == user.Id)
+                .ToListAsync();
+
+            foreach (var item in printProjects)
+            {
+                var pr = projects.FirstOrDefault(q => q.ProjectId == item.ProjectID && q.ProjectType == "Print");
+                if (pr != null)
+                    item.Rating = pr.Rating;
+                else item.Rating = 0;
+            }
+
+            var digitalProjects = await _context.DigitalDesignProjects
+                .AsNoTracking()
+                .Where(p => p.ApplicationUserId == user.Id)
+                .ToListAsync();
+
+            foreach (var item1 in digitalProjects)
+            {
+                var pr = projects.FirstOrDefault(q => q.ProjectId == item1.ProjectID && q.ProjectType == "Digital");
+                if (pr != null)
+                    item1.Rating = pr.Rating;
+                else item1.Rating = 0;
+            }
+
+            var brandingProjects = await _context.BrandingProjects
+                .AsNoTracking()
+                .Where(p => p.ApplicationUserId == user.Id)
+                .ToListAsync();
+
+            foreach (var item2 in brandingProjects)
+            {
+                var pr = projects.FirstOrDefault(q => q.ProjectId == item2.ProjectID && q.ProjectType == "Branding");
+                if (pr != null)
+                    item2.Rating = pr.Rating;
+                else item2.Rating = 0;
+            }
+
+            var threeDProjects = await _context.ThreeDProjects
+                .AsNoTracking()
+                .Where(p => p.ApplicationUserId == user.Id)
+                .ToListAsync();
+
+            foreach (var item3 in threeDProjects)
+            {
+                var pr = projects.FirstOrDefault(q => q.ProjectId == item3.ProjectID && q.ProjectType == "3d");
+                if (pr != null)
+                    item3.Rating = pr.Rating;
+                else item3.Rating = 0;
+            }
+
+            // Calculate statistics
+            var totalProjects = printProjects.Count() +
+                    digitalProjects.Count() +
+                    brandingProjects.Count() +
+                    threeDProjects.Count();
+
+            var averageRating = 0.0;
+            var totalViews = 0;
+
+            if (totalProjects > 0)
+            {
+                // Calculate total ratings, handling null cases
+                var ratings = new List<int>();
+
+                ratings.AddRange((IEnumerable<int>)projects.Select(p => p.Rating));
+
+                averageRating = (double)(ratings!.Any() ? Math.Round(ratings!.Average(), 2)! : 0);
+
+                // Calculate total views
+                totalViews =
+                    printProjects.Sum(p => p.Views) +
+                    digitalProjects.Sum(p => p.Views) +
+                    brandingProjects.Sum(p => p.Views) +
+                    threeDProjects.Sum(p => p.Views);
+            }
+
+            var viewModel = new ProfileViewModel
+            {
+                UserId = user.Id,
+                FirstName = user.FirstName,
+                LastName = user.LastName,
+                Email = user.Email,
+                Website = user.Website,
+                Biography = user.Biography,
+                ProfileImagePath = user.ProfileImagePath,
+                DoesPrintDesign = user.DoesPrintDesign,
+                DoesDigitalDesign = user.DoesDigitalDesign,
+                DoesBrandingDesign = user.DoesBrandingDesign,
+                Does3dDesign = user.Does3dDesign,
+                PrintProjects = printProjects,
+                DigitalProjects = digitalProjects,
+                BrandingProjects = brandingProjects,
+                ThreeDProjects = threeDProjects,
+                TotalProjects = totalProjects,
+                AverageRating = averageRating,
+                TotalViews = totalViews
+            };
+
+            return View(viewModel);
+        }
+
         [Authorize]
         public async Task<IActionResult> Edit()
         {
@@ -103,7 +291,6 @@ namespace Senior_Project_Graphic_Design_Portfolio.Controllers
             return View(viewModel);
         }
 
-        // Action to handle the profile update form submission
         [HttpPost]
         [Authorize]
         [ValidateAntiForgeryToken]
@@ -133,28 +320,58 @@ namespace Senior_Project_Graphic_Design_Portfolio.Controllers
             // Handle profile image upload if provided
             if (model.ProfileImage != null)
             {
-                // Generate a unique filename
-                string uniqueFileName = Guid.NewGuid().ToString() + "_" + model.ProfileImage.FileName;
-                string uploadsFolder = Path.Combine(_webHostEnvironment.WebRootPath, "profile-images");
-                string filePath = Path.Combine(uploadsFolder, uniqueFileName);
-
-                // Create directory if it doesn't exist
-                if (!Directory.Exists(uploadsFolder))
+                try
                 {
-                    Directory.CreateDirectory(uploadsFolder);
-                }
+                    if (model.ProfileImage.Length <= 5 * 1024 * 1024) // 5MB limit
+                    {
+                        var extension = Path.GetExtension(model.ProfileImage.FileName).ToLower();
+                        var allowedExtensions = new[] { ".jpg", ".jpeg", ".png" };
 
-                // Save the file
-                using (var fileStream = new FileStream(filePath, FileMode.Create))
+                        if (allowedExtensions.Contains(extension))
+                        {
+                            string uniqueFileName = Guid.NewGuid().ToString() + "_" + model.ProfileImage.FileName;
+                            string uploadsFolder = Path.Combine(_webHostEnvironment.WebRootPath, "profile-images");
+                            string filePath = Path.Combine(uploadsFolder, uniqueFileName);
+
+                            Directory.CreateDirectory(uploadsFolder);
+
+                            // Clean up old profile image
+                            if (!string.IsNullOrEmpty(user.ProfileImagePath))
+                            {
+                                string oldFilePath = Path.Combine(uploadsFolder, user.ProfileImagePath);
+                                if (System.IO.File.Exists(oldFilePath))
+                                {
+                                    System.IO.File.Delete(oldFilePath);
+                                }
+                            }
+
+                            // Save new image
+                            using (var fileStream = new FileStream(filePath, FileMode.Create))
+                            {
+                                await model.ProfileImage.CopyToAsync(fileStream);
+                            }
+
+                            user.ProfileImagePath = uniqueFileName;
+                        }
+                        else
+                        {
+                            ModelState.AddModelError("ProfileImage", "Please upload only JPG or PNG files.");
+                            return View(model);
+                        }
+                    }
+                    else
+                    {
+                        ModelState.AddModelError("ProfileImage", "File size must be less than 5MB.");
+                        return View(model);
+                    }
+                }
+                catch (Exception ex)
                 {
-                    await model.ProfileImage.CopyToAsync(fileStream);
+                    ModelState.AddModelError("ProfileImage", "Error uploading image. Please try again.");
+                    return View(model);
                 }
-
-                // Update user profile image path
-                user.ProfileImagePath = uniqueFileName;
             }
 
-            // Save changes to database
             var result = await _userManager.UpdateAsync(user);
             if (result.Succeeded)
             {

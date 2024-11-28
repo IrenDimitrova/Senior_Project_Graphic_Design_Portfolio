@@ -67,9 +67,9 @@ body {
     font-size: 1rem;
 }
 
-    .rating-info .bi {
-        font-size: 0.9rem;
-    }
+.rating-info .bi {
+    font-size: 0.9rem;
+}
 
 .display-4 {
     font-size: 3rem;
@@ -117,10 +117,10 @@ body {
     transition: all 0.3s ease;
 }
 
-    .dropdown-item:hover {
-        background-color: #f3a849;
-        color: #20364b;
-    }
+.dropdown-item:hover {
+    background-color: #f3a849;
+    color: #20364b;
+}
 
 .dropdown-divider {
     border-top: 1px solid rgba(32, 54, 75, 0.1);

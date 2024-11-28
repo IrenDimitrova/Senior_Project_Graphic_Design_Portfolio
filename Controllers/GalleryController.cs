@@ -24,6 +24,7 @@ namespace Senior_Project_Graphic_Design_Portfolio.Controllers
 
         public async Task<IActionResult> Index(string category = "all")
         {
+            ViewData["CurrentPage"] = "Gallery";
             var model = new GalleryViewModel { SelectedCategory = category };
 
             if (category is "all" or "print")

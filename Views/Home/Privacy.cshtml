@@ -2,6 +2,147 @@
 @{
     ViewData["Title"] = "Privacy Policy";
 }
-<h1>@ViewData["Title"]</h1>
+<style>
+    .privacy-container {
+        max-width: 1200px;
+        margin: 4rem auto;
+        padding: 2rem;
+        background-color: #fcfdfd;
+        border-radius: 8px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    }
 
-<p>Use this page to detail your site's privacy policy.</p>
+    .privacy-header {
+        margin-bottom: 3rem;
+        text-align: center;
+    }
+
+    .privacy-title {
+        font-family: 'Tenby Five', sans-serif;
+        color: #20364b;
+        font-size: 2.5rem;
+        margin-bottom: 1rem;
+    }
+
+    .privacy-subtitle {
+        color: #f3a849;
+        font-family: 'DM Sans', sans-serif;
+        font-size: 1.1rem;
+    }
+
+    .privacy-section {
+        margin-bottom: 2.5rem;
+    }
+
+    .section-title {
+        font-family: 'Tenby Five', sans-serif;
+        color: #20364b;
+        font-size: 1.5rem;
+        margin-bottom: 1rem;
+    }
+
+    .privacy-content {
+        font-family: 'DM Sans', sans-serif;
+        color: #20364b;
+        line-height: 1.6;
+    }
+
+    .privacy-list {
+        margin-left: 1.5rem;
+        margin-bottom: 1rem;
+    }
+
+        .privacy-list li {
+            margin-bottom: 0.5rem;
+        }
+
+    .contact-highlight {
+        background-color: rgba(243, 168, 73, 0.1);
+        padding: 1.5rem;
+        border-radius: 6px;
+        margin: 2rem 0;
+        border-left: 4px solid #f3a849;
+    }
+</style>
+
+<div class="privacy-container">
+    <div class="privacy-header">
+        <h1 class="privacy-title">Privacy Policy</h1>
+        <p class="privacy-subtitle">Last updated: November 28, 2024</p>
+    </div>
+
+    <div class="privacy-section">
+        <h2 class="section-title">Introduction</h2>
+        <div class="privacy-content">
+            <p>Welcome to Hive Portfolios. We respect your privacy and are committed to protecting your personal data. This privacy policy explains how we collect, use, and safeguard your information when you use our service.</p>
+        </div>
+    </div>
+
+    <div class="privacy-section">
+        <h2 class="section-title">Information We Collect</h2>
+        <div class="privacy-content">
+            <p>We collect information that you provide directly to us, including:</p>
+            <ul class="privacy-list">
+                <li>Account registration details (name, email, password)</li>
+                <li>Profile information (biography, website, portfolio content)</li>
+                <li>Communications and interactions with other users</li>
+                <li>Project uploads and related content</li>
+                <li>Comments and ratings on projects</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="privacy-section">
+        <h2 class="section-title">How We Use Your Information</h2>
+        <div class="privacy-content">
+            <p>We use the information we collect to:</p>
+            <ul class="privacy-list">
+                <li>Provide and maintain our service</li>
+                <li>Process and display your portfolio content</li>
+                <li>Enable interaction between users</li>
+                <li>Send service-related communications</li>
+                <li>Improve and develop our platform</li>
+                <li>Protect against unauthorized access and abuse</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="privacy-section">
+        <h2 class="section-title">Data Security</h2>
+        <div class="privacy-content">
+            <p>We implement appropriate security measures to protect your personal information. However, no method of transmission over the Internet is 100% secure. We strive to protect your personal information but cannot guarantee its absolute security.</p>
+        </div>
+    </div>
+
+    <div class="privacy-section">
+        <h2 class="section-title">Your Rights</h2>
+        <div class="privacy-content">
+            <p>You have the right to:</p>
+            <ul class="privacy-list">
+                <li>Access your personal data</li>
+                <li>Correct inaccurate data</li>
+                <li>Request deletion of your data</li>
+                <li>Object to processing of your data</li>
+                <li>Request transfer of your data</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="privacy-section">
+        <h2 class="section-title">Cookies</h2>
+        <div class="privacy-content">
+            <p>We use cookies and similar tracking technologies to track activity on our service and hold certain information. Cookies are files with small amount of data which may include an anonymous unique identifier.</p>
+        </div>
+    </div>
+
+    <div class="contact-highlight">
+        <h2 class="section-title">Contact Us</h2>
+        <div class="privacy-content">
+            <p>If you have any questions about this Privacy Policy, please contact us:</p>
+            <p>
+                Email: contact@hiveportfolios.com<br>
+                Address: 111 Vasil Levski Bul., Sofia, Bulgaria
+            </p>
+        </div>
+    </div>
+</div>

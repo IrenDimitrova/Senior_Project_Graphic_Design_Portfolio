@@ -365,14 +365,6 @@
                 <div class="stat-label">VIEWS</div>
             </div>
         </div>
-
-        <!-- Edit Profile Button (only visible to profile owner) -->
-        @if (User.Identity?.Name == Model.Email)
-        {
-            <a asp-action="Edit" class="btn btn-edit-profile">
-                <i class="bi bi-pencil"></i> Edit Profile
-            </a>
-        }
     </div>
 
     <!-- Services Section (for designers) -->
@@ -537,6 +529,40 @@
                 </div>
             }
         </div>
+    </div>
+    <div class="contact-form">
+        <h3>Contact Form</h3>
+
+        @if (TempData["Message"] != null)
+        {
+            <div class="alert alert-success">
+                @TempData["Message"]
+            </div>
+        }
+
+        <form asp-controller="Contact" asp-action="Send" method="post">
+            <div class="form-group">
+                <label for="name">Name:</label>
+                <input type="text" class="form-control" id="name" name="Name" required maxlength="100">
+            </div>
+
+            <div class="form-group">
+                <label for="email">Email:</label>
+                <input type="email" class="form-control" id="email" name="Email" required>
+            </div>
+
+            <div class="form-group">
+                <label for="subject">Subject:</label>
+                <input type="text" class="form-control" id="subject" name="Subject" required maxlength="200">
+            </div>
+
+            <div class="form-group">
+                <label for="message">Message:</label>
+                <textarea class="form-control" id="message" name="Message" rows="5" required maxlength="1000"></textarea>
+            </div>
+
+            <button type="submit" class="btn btn-primary">Send Message</button>
+        </form>
     </div>
 </div>
 
